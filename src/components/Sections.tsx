@@ -73,15 +73,6 @@ function Hero() {
         ( {PROFILE.tagline} )
       </motion.p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.6 }}
-        className="mt-3 font-mono text-xs tracking-[0.3em] text-edge/70"
-      >
-        {PROFILE.name.toUpperCase()} · {PROFILE.role.toUpperCase()}
-      </motion.p>
-
       <motion.a
         href="#about"
         initial={{ opacity: 0 }}
@@ -133,8 +124,8 @@ function About() {
             <>
               <p>
                 <span className="font-medium text-ink">{p.name}</span> — aka{" "}
-                <span className="font-medium text-ink">{p.handle}</span>, a student of{" "}
-                <span className="text-ink">{p.role}</span>, walking The Fool&apos;s path:
+                <span className="font-medium text-ink">{p.handle}</span>, a 21-year-old student
+                of <span className="text-ink">{p.role}</span>, walking The Fool&apos;s path:
                 infinite possibility at the start of the journey.
               </p>
               <p>
@@ -329,10 +320,6 @@ function Contact() {
             </a>
           ))}
         </div>
-
-        <p className="font-mono text-xs tracking-[0.25em] text-dim">
-          {content.profile.email}
-        </p>
       </Reveal>
     </section>
   );
