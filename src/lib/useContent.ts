@@ -11,6 +11,25 @@ import {
   STATS,
 } from "@/data/content";
 
+// One shared realtime channel for ALL useContent instances.
+// Creating a channel per hook with the same name throws
+// "cannot add postgres_changes callbacks after subscribe()".
+let sharedChannelStarted = false;
+const listeners = new Set<() => void>();
+
+function ensureSharedChannel() {
+  if (sharedChannelStarted) return;
+  const sb = getSupabase();
+  if (!sb) return;
+  sharedChannelStarted = true;
+  sb
+    .channel("content-live")
+    .on("postgres_changes", { event: "*", schema: "public" }, () => {
+      for (const fn of listeners) fn();
+    })
+    .subscribe();
+}
+
 export interface ProfileData {
   handle: string;
   name: string;
@@ -171,14 +190,10 @@ export function useContent() {
   useEffect(() => {
     if (!configured) return;
     void refetch();
-    const sb = getSupabase();
-    if (!sb) return;
-    const channel = sb
-      .channel("content-live")
-      .on("postgres_changes", { event: "*", schema: "public" }, () => void refetch())
-      .subscribe();
+    ensureSharedChannel();
+    listeners.add(refetch);
     return () => {
-      void sb.removeChannel(channel);
+      listeners.delete(refetch);
     };
   }, [configured, refetch]);
 
