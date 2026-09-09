@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Mail, MoonStar } from "lucide-react";
+import { ExternalLink, MoonStar } from "lucide-react";
 import LetterReveal from "./LetterReveal";
 import { useContent } from "@/lib/useContent";
 import { PROFILE } from "@/data/content";
@@ -296,14 +296,6 @@ function Contact() {
 
       <Reveal className="flex flex-col items-center gap-8">
         <div className="flex items-center gap-4 sm:gap-5">
-          <a
-            href={`mailto:${content.profile.email}`}
-            aria-label="Email"
-            className="glass glass-hover flex h-14 w-14 items-center justify-center rounded-full text-ink transition-colors hover:text-cyan"
-          >
-            <Mail className="h-5 w-5" />
-          </a>
-
           {socials.map((s) => (
             <a
               key={s.id}
